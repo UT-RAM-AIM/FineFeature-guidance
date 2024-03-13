@@ -26,32 +26,27 @@ The code is organized in the following way:
   - `autoencoder/`: contains the configuration file for the autoencoder
   - `latent-diffusion/`: contains the configuration file for the diffusion model
   - `classifier/`: contains the configuration file for the classifier
-- `data/`: contains the data used in the experiments
-- `models/`: contains the DiFine model
-- `utils/`: contains the code to train and test the DiFine model
+- `data/`: contains the feature info files (.csv) for the datasets
+- `logs/`: used to store the training logs, each of which is stored in a separate folder named by the current time
+- `lsdm/`: includes all the code for the DiFine model
 - `main.py`: contains the code to train and test the DiFine model
 
-To train the DiFine model, you can run the following command:
+To simply test the training procedure of the DiFine model, you can run the following command:
 
 ```bash
 python main.py --train
 ```
 
-To test the DiFine model, you can run the following command:
+For specific training settings, please follow the instructions in the jupyter notebook `05-training.ipynb`.
 
-```bash
-python main.py --test
-```
+To test the DiFine model, use `01/02/03/04-*.ipynb` to load the trained model and test the performance:
 
-## Data
+- `01-generation-LIDC-IDRI.ipynb`: test the DiFine model on the LIDC-IDRI dataset and visualize the classifier guidance
+- `02-generation-BreastMam.ipynb`: test the DiFine model on the BreastMam dataset
+- `03-generation-BrainMRI.ipynb`: test the DiFine model on the BrainMRI dataset
+- `04-manipulation-LIDC-IDRI.ipynb`: test the manipulation ability of the DiFine model on the LIDC-IDRI dataset
 
-The data used in the experiments is stored in the `data/` folder. The data is organized in the following way:
+Remember to check and change the parameters high-lighted on the top of each cell.
 
-- `data/`: contains the data used in the experiments
-  - `train/`: contains the training data
-  - `test/`: contains the test data
-  - `val/`: contains the validation data
-  - `train.csv`: contains the file names and labels of the training data
-  - `test.csv`: contains the file names and labels of the test data
 
 
