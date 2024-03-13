@@ -31,10 +31,10 @@ The code is organized in the following way:
 - `lsdm/`: includes all the code for the DiFine model
 - `main.py`: contains the code to train and test the DiFine model
 
-To simply test the training procedure of the DiFine model, you can run the following command:
+To simply test the training procedure of the DiFine model, you can run the following command (on BrainMRI dataset):
 
 ```bash
-python main.py --train
+python main.py --base configs/latent-diffusion/lsdm_general-BrainMRI3.yaml -t --gpus 0,
 ```
 
 For specific training settings, please follow the instructions in the jupyter notebook `05-training.ipynb`.
