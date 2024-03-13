@@ -1,0 +1,58 @@
+model:
+  base_learning_rate: 4.5e-6
+  target: lsdm.models.autoencoder.AutoencoderKL
+  params:
+    monitor: "val/rec_loss"
+    embed_dim: 3
+    lossconfig:
+      target: lsdm.modules.losses.LPIPSWithDiscriminator
+      params:
+        disc_start: 50001
+        kl_weight: 0.000001
+        disc_weight: 0.5
+        disc_in_channels: 1  # important for single-channel i/o
+
+    # autoencoder model structure:
+    ddconfig:
+      double_z: True
+      z_channels: 3
+      resolution: 240
+      in_channels: 1
+      out_ch: 1
+      ch: 128
+      ch_mult: [ 1,2,4 ]  # num_down = len(ch_mult)-1
+      num_res_blocks: 2
+      attn_resolutions: [ ]
+      dropout: 0.0
+
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 2  # 6
+    wrap: True
+    train:
+      target: lsdm.data.general.DatasetAPITrain
+      params:
+        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BrainMRI3"
+        size: 240
+        num_semantic_labels: 5
+    validation:
+      target: lsdm.data.general.DatasetAPIValidation
+      params:
+        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BrainMRI3"
+        size: 240
+        num_semantic_labels: 5
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        batch_frequency: 1000
+        max_images: 8
+        increase_log_steps: True
+
+  trainer:
+    benchmark: True
+    accumulate_grad_batches: 2

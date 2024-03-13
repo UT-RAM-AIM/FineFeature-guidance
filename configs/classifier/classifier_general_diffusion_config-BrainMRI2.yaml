@@ -1,0 +1,84 @@
+model:
+  base_learning_rate: 1.0e-06   # 1.0e-5 set to target_lr by starting main.py with '--scale_lr False'
+  target: lsdm.models.diffusion.ddpm.LatentDiffusion
+  params:
+    linear_start: 0.0015
+    linear_end: 0.0195  # 0.0155
+    num_timesteps_cond: 1
+    log_every_t: 200
+    timesteps: 1000
+    # loss_type: l1
+    first_stage_key: "image"
+    cond_stage_key: "class_label"
+    image_size: 64
+    channels: 1
+    cond_stage_trainable: False
+    concat_mode: True
+    scale_by_std: True
+    monitor: 'val/loss_simple_ema'
+
+# used in the classifier configuration:
+    # unet_config:
+    #   target: lsdm.modules.diffusionmodules.openaimodel.UNetModel
+    #   params:
+    #     image_size: 64
+    #     in_channels: 3
+    #     out_channels: 3
+    #     model_channels: 192  # 192
+    #     attention_resolutions: [ 16, 8, 4, 2, 1 ]   # 32, 16, 8, 4  6:[2,2,2,1]
+    #     num_res_blocks: 2
+    #     channel_mult: [ 1,2,2,4,4 ]  # 32, 16, 8, 4, 2  6:[1,2,2]
+    #     num_heads: 8
+    #     use_scale_shift_norm: True
+    #     resblock_updown: True
+
+    unet_config:
+      target: lsdm.modules.diffusionmodules.openaimodel.UNetSPADEModel
+      params:
+        image_size: 128
+        in_channels: 6  # 3 additional channels for segmentation maps (same first stage encoder)
+        out_channels: 3
+        model_channels: 128  # 192
+        attention_resolutions: [ 16, 8, 4 ]   # 32, 16, 8, 4
+        num_semantic_labels: 3  # important!
+        num_res_blocks: 2
+        channel_mult: [ 1,2,2,4,4 ]  # 32, 16, 8, 4, 2
+        num_heads: 8
+        use_scale_shift_norm: True
+        resblock_updown: True
+
+# used for loading the autoencoder model:
+    first_stage_config:
+      target: lsdm.models.autoencoder.AutoencoderKL
+      params:
+        embed_dim: 3
+        monitor: "val/rec_loss"
+        # ==========> type in the trained AE: <=========
+        ckpt_path: "/home/x3008558/nodule_malignancy/LSDM/logs/2023-11-30T18-33-30_autoencoder_general-BrainMRI2/checkpoints/last.ckpt"  # last.ckpt
+        ddconfig:
+          double_z: True  # True
+          z_channels: 3
+          resolution: 512  # 256
+          in_channels: 1
+          out_ch: 1
+          ch: 128
+          ch_mult: [ 1,2,4 ]  # num_down = len(ch_mult)-1
+          num_res_blocks: 2
+          attn_resolutions: [ ]
+          dropout: 0.0
+        lossconfig:
+          target: torch.nn.Identity
+
+    cond_stage_config: "__is_first_stage__"  # share the same encoder
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        batch_frequency: 500
+        max_images: 8
+        increase_log_steps: False
+
+  trainer:
+    benchmark: True

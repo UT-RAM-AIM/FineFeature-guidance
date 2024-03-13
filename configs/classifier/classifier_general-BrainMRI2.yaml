@@ -1,0 +1,77 @@
+model:
+  base_learning_rate: 1.0e-06   # 1.0e-5 set to target_lr by starting main.py with '--scale_lr False'
+  target: lsdm.models.diffusion.classifier.NoisyNoduleMalignancyClassifier
+  params:
+    diffusion_config: "configs/classifier/classifier_general_diffusion_config-BrainMRI2.yaml"
+    num_classes: 2
+    pool: "spatial"  # "adaptive"
+    label_key: "class_label"
+    # ckpt_path: "logs/classifier_mali/epoch119.ckpt"  # classifier checkpoint
+    scheduler_config: # 10000 warmup steps
+      target: lsdm.lr_scheduler.LambdaLinearScheduler
+      params:
+        warm_up_steps: [10000]
+        cycle_lengths: [10000000000000]
+        f_start: [1.e-6]
+        f_max: [1.]
+        f_min: [1.]
+
+    monitor: 'val/loss'
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 4
+    num_workers: 1
+    wrap: False
+    weighted_sampler: True
+    train:
+      target: lsdm.data.general.DatasetWithClassifierAPITrain
+      params:
+        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BrainMRI2"
+        data_csv_name: "/home/x3008558/nodule_malignancy/LSDM/data/BrainMRI2_Train_coordinate_switched.csv"
+        feature_name: "pathology"
+        slice_name: "image_name"
+        make_binary: False
+        positive_threshold: 1
+        label_scale: 2
+        training_mode: True
+        crop_size: 128
+        num_semantic_labels: 5  # [1,2,3,4]
+        abnormal_area_threshold: 4  # used in masks
+        mask_maxpooling_pixels: 4
+        random_rotation: False
+        masked_image: False
+        masked_guidance: True
+    validation:
+      target: lsdm.data.general.DatasetWithClassifierAPIValidation
+      params:
+        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BrainMRI2"
+        data_csv_name: "/home/x3008558/nodule_malignancy/LSDM/data/BrainMRI2_Test_coordinate_switched.csv"  # "/home/x3008558/nodule_malignancy/LSDM/data/BreastMam_Test.csv"
+        feature_name: "pathology"
+        slice_name: "image_name"
+        make_binary: False
+        positive_threshold: 1
+        label_scale: 2
+        training_mode: False
+        crop_size: 128
+        num_semantic_labels: 5  # [1,2,3,4]
+        abnormal_area_threshold: 4  # used in masks
+        mask_maxpooling_pixels: 4
+        random_rotation: False
+        masked_image: False
+        masked_guidance: True
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        batch_frequency: 2000  # 500
+        max_images: 32
+        increase_log_steps: False
+
+
+  trainer:
+    benchmark: True
+    replace_sampler_ddp: False  # use weighted sampler to balance the training dataset (binary classification)

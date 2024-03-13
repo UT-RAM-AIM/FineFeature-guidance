@@ -1,0 +1,53 @@
+model:
+  base_learning_rate: 1.0e-06   # 1.0e-5 set to target_lr by starting main.py with '--scale_lr False'
+  target: lsdm.models.diffusion.classifier.NoisyNoduleMalignancyClassifier
+  params:
+    diffusion_config: "../configs/classifier/lidc-lsdm_ui_model.yaml"
+    num_classes: 2
+    pool: "spatial"  # "adaptive"
+    label_key: "class_label"
+    # ckpt_path: "logs/classifier_mali/epoch119.ckpt"  # classifier checkpoint
+    scheduler_config: # 10000 warmup steps
+      target: lsdm.lr_scheduler.LambdaLinearScheduler
+      params:
+        warm_up_steps: [10000]
+        cycle_lengths: [10000000000000]
+        f_start: [1.e-6]
+        f_max: [1.]
+        f_min: [1.]
+
+    monitor: 'val/loss'
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 4
+    num_workers: 4
+    wrap: False
+    weighted_sampler: True
+    train:
+      target: lsdm.data.lidc.LIDCNoduleMalignancyClassifierBalancedTrain  # LidcNoduleCubeDatasetTrain
+      params:
+        nodule_crop_size: 64
+        training_set: True
+        maxpooling_pixels: 4
+    validation:
+      target: lsdm.data.lidc.LIDCNoduleMalignancyClassifierBalancedValidation
+      params:
+        nodule_crop_size: 64
+        training_set: False
+        maxpooling_pixels: 4
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        batch_frequency: 2000  # 500
+        max_images: 32
+        increase_log_steps: False
+
+
+  trainer:
+    benchmark: True
+    replace_sampler_ddp: False  # use weighted sampler to balance the training dataset (binary classification)
