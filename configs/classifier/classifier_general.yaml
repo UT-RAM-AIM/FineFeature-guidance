@@ -27,7 +27,7 @@ data:
     train:
       target: lsdm.data.general.DatasetWithClassifierAPITrain
       params:
-        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
+        dataset_dir: ""
         data_csv_name: "data/BreastMam_Train_coordinate_switched.csv"
         feature_name: "pathology"  # [0,1]
         slice_name: "new_name"
@@ -45,7 +45,7 @@ data:
     validation:
       target: lsdm.data.general.DatasetWithClassifierAPIValidation
       params:
-        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
+        dataset_dir: ""
         data_csv_name: "data/BreastMam_Test_coordinate_switched.csv"
         feature_name: "pathology"
         slice_name: "new_name"

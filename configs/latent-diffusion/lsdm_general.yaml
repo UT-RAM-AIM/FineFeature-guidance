@@ -68,13 +68,13 @@ data:
     train:
       target: lsdm.data.general.DatasetAPITrain
       params:
-        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
+        dataset_dir: ""
         size: 512
         num_semantic_labels: 3
     validation:
       target: lsdm.data.general.DatasetAPIValidation
       params:
-        dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
+        dataset_dir: ""
         size: 512
         num_semantic_labels: 3  # BreastMam: 3  LIDC: 8
 
