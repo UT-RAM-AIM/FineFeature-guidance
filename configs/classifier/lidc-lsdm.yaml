@@ -47,7 +47,7 @@ model:
       params:
         embed_dim: 3
         monitor: "val/rec_loss"
-        ckpt_path: "logs/autoencoder_kl_128x128x3_512resolution/epoch19.ckpt"  # last.ckpt
+        ckpt_path: "/home/zuxinrui/thesis-LSDM/nodule_malignancy/LSDM/logs/autoencoder_kl_128x128x3_512resolution/epoch19.ckpt"  # last.ckpt
         ddconfig:
           double_z: True  # True
           z_channels: 3

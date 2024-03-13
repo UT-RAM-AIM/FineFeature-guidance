@@ -6,7 +6,6 @@ model:
     num_classes: 2
     pool: "spatial"  # "adaptive"
     label_key: "class_label"
-    # ckpt_path: "logs/classifier_mali/epoch119.ckpt"  # classifier checkpoint
     scheduler_config: # 10000 warmup steps
       target: lsdm.lr_scheduler.LambdaLinearScheduler
       params:
@@ -29,7 +28,7 @@ data:
       target: lsdm.data.general.DatasetWithClassifierAPITrain
       params:
         dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
-        data_csv_name: "/home/x3008558/nodule_malignancy/LSDM/data/BreastMam_Train_coordinate_switched.csv"
+        data_csv_name: "data/BreastMam_Train_coordinate_switched.csv"
         feature_name: "pathology"  # [0,1]
         slice_name: "new_name"
         make_binary: False
@@ -47,7 +46,7 @@ data:
       target: lsdm.data.general.DatasetWithClassifierAPIValidation
       params:
         dataset_dir: "/deepstore/datasets/ram/nodule-ct-gen/LSDM/BreastMam"
-        data_csv_name: "/home/x3008558/nodule_malignancy/LSDM/data/BreastMam_Test_coordinate_switched.csv"  # "/home/x3008558/nodule_malignancy/LSDM/data/BreastMam_Test.csv"
+        data_csv_name: "data/BreastMam_Test_coordinate_switched.csv"
         feature_name: "pathology"
         slice_name: "new_name"
         make_binary: False

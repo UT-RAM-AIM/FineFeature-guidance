@@ -41,14 +41,14 @@ model:
         num_heads: 8
         use_scale_shift_norm: True
         resblock_updown: True
-        ckpt_path: "logs/lsdm_kl_128x128x3_512resolution/epoch122.ckpt"  # lsdm checkpoint
+        ckpt_path: "/home/zuxinrui/thesis-LSDM/nodule_malignancy/LSDM/logs/lsdm_kl_128x128x3_512resolution/epoch122.ckpt"  # lsdm checkpoint
         
     first_stage_config:
       target: lsdm.models.autoencoder.AutoencoderKL
       params:
         embed_dim: 3
         monitor: "val/rec_loss"
-        ckpt_path: "logs/autoencoder_kl_128x128x3_512resolution/epoch19.ckpt"  # autoencoder checkpoint
+        ckpt_path: "/home/zuxinrui/thesis-LSDM/nodule_malignancy/LSDM/logs/autoencoder_kl_128x128x3_512resolution/epoch19.ckpt"  # autoencoder checkpoint
         # totally copy the autoencoder config:
         ddconfig:
           double_z: True  # True

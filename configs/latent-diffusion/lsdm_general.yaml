@@ -18,15 +18,6 @@ model:
     scale_by_std: True
     monitor: 'val/loss_simple_ema'
 
-    # scheduler_config: # 10000 warmup steps
-    #   target: ldm.lr_scheduler.LambdaLinearScheduler
-    #   params:
-    #     warm_up_steps: [10000]
-    #     cycle_lengths: [10000000000000]
-    #     f_start: [1.e-6]
-    #     f_max: [1.]
-    #     f_min: [ 1.]
-
     unet_config:
       target: lsdm.modules.diffusionmodules.openaimodel.UNetSPADEModel
       params:
@@ -41,6 +32,7 @@ model:
         num_heads: 8
         use_scale_shift_norm: True
         resblock_updown: True
+        # ==========> type in the trained lsdm model: <==========
         ckpt_path: "/home/x3008558/nodule_malignancy/LSDM/logs/2023-11-15T01-27-52_lsdm_general/checkpoints/last.ckpt"  # lsdm checkpoint (used in generation process)
 
     first_stage_config:
@@ -48,6 +40,7 @@ model:
       params:
         embed_dim: 3
         monitor: "val/rec_loss"
+        # ==========> type in the trained AE model: <==========
         ckpt_path: "logs/autoencoder-BreastMam/checkpoints/last.ckpt"  # autoencoder checkpoint
         # totally copy the autoencoder config:
         ddconfig:

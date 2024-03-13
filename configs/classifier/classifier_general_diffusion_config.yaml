@@ -17,21 +17,6 @@ model:
     scale_by_std: True
     monitor: 'val/loss_simple_ema'
 
-# used in the classifier configuration:
-    # unet_config:
-    #   target: lsdm.modules.diffusionmodules.openaimodel.UNetModel
-    #   params:
-    #     image_size: 64
-    #     in_channels: 3
-    #     out_channels: 3
-    #     model_channels: 192  # 192
-    #     attention_resolutions: [ 16, 8, 4, 2, 1 ]   # 32, 16, 8, 4  6:[2,2,2,1]
-    #     num_res_blocks: 2
-    #     channel_mult: [ 1,2,2,4,4 ]  # 32, 16, 8, 4, 2  6:[1,2,2]
-    #     num_heads: 8
-    #     use_scale_shift_norm: True
-    #     resblock_updown: True
-
     unet_config:
       target: lsdm.modules.diffusionmodules.openaimodel.UNetSPADEModel
       params:
@@ -53,7 +38,7 @@ model:
       params:
         embed_dim: 3
         monitor: "val/rec_loss"
-        # ==========> type in the trained AE: <=========
+        # ==========> type in the trained AE model: <==========
         ckpt_path: "logs/autoencoder-BreastMam/checkpoints/last.ckpt"  # last.ckpt
         ddconfig:
           double_z: True  # True
