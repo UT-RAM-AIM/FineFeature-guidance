@@ -1,5 +1,5 @@
 # FineFeature-guidance
-Code to our manuscript about the DiFine model for Fine Feature guidance in artificial medical images.
+Code for our manuscript "It’s All in the Details: Guiding Fine-Feature Characteristics in Artificial Medical Images using Diffusion Models" (submitted for publication).
 
 ## Introduction
 
@@ -9,7 +9,7 @@ The DiFine model contains an autoencoder, a diffusion model with coarse feature 
 
 In the following, we will introduce the pre-request packages and the usage of the code.
 
-## Pre-request
+## Prerequisites
 
 The code is written in Python 3.7 and uses the following packages:
 
@@ -27,6 +27,7 @@ The code is organized in the following way:
   - `latent-diffusion/`: contains the configuration file for the diffusion model
   - `classifier/`: contains the configuration file for the classifier
 - `data/`: contains the feature info files (.csv) for the datasets
+  - `preprocessing/`: contains the files for preprocessing of the used datasets
 - `logs/`: used to store the training logs, each of which is stored in a separate folder named by the current time
 - `lsdm/`: includes all the code for the DiFine model
 - `main.py`: contains the code to train and test the DiFine model
@@ -48,5 +49,7 @@ To test the DiFine model, use `01/02/03/04-*.ipynb` to load the trained model an
 
 Remember to check and change the parameters high-lighted on the top of each cell.
 
+## Citation
 
+TBD
 
