@@ -3,11 +3,11 @@ Code for our manuscript "It’s All in the Details: Guiding Fine-Feature Charact
 
 ## Introduction
 
-This repository contains the code to reproduce the results of our manuscript "Fine Feature guidance in artificial medical images using the DiFine model". The code is written in Python and uses the PyTorch library.
+The code is written in Python and uses the PyTorch library.
 
 The DiFine model contains an autoencoder, a diffusion model with coarse feature guidance, and a classifier for fine feature guidance.
 
-In the following, we will introduce the pre-request packages and the usage of the code.
+In the following, we will introduce the prerequisites packages and the usage of the code.
 
 ## Prerequisites
 
