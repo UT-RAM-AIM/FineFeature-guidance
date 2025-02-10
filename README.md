@@ -1,5 +1,5 @@
 # FineFeature-guidance
-Code for our manuscript "It’s All in the Details: Guiding Fine-Feature Characteristics in Artificial Medical Images using Diffusion Models" (submitted for publication).
+Code used for our manuscript "It’s All in the Details: Guiding Fine-Feature Characteristics in Artificial Medical Images using Diffusion Models" (submitted for publication).
 
 ## Introduction
 
@@ -53,7 +53,7 @@ Remember to check and change the parameters high-lighted on the top of each cell
 
 TBD (manuscript submitted for publication)
 
-The code in this repository is based on the previous work of:
+The code in this repository is based on the previous work, and therefore their code, of:
 1. Rombach, R., Blattmann, A., Lorenz, D., Esser, P. & Ommer, B. High-Resolution Image Synthesis with Latent Diffusion Models. in 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) vols 2022-June 10674–10685 (IEEE, 2022).
 2. Dhariwal, P. & Nichol, A. Diffusion Models Beat GANs on Image Synthesis. in Advances in Neural Information Processing Systems (eds. Ranzato;, M., Beygelzimer;, A., Dauphin;, Y., Liang;, P. S. & Vaughan;, J. W.) vol. 34 8780–8794 (Curran Associates, Inc., 2021).
 3. Wang, W. et al. Semantic Image Synthesis via Diffusion Models. (2022) doi:10.48550/arXiv.2207.00050.
